@@ -1,3 +1,6 @@
+The pruning methods took all the json files inside the "input" folder and use them as an inputs
+
+
 [Averaging] - basically sum of importance score
 
 python averaging.py --prune 0.30
