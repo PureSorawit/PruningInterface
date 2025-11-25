@@ -1,5 +1,7 @@
 The pruning methods took all the json files inside the "input" folder and use them as an inputs
 
+Just run the run_pruning_pipeline.bat for simplicity or use CLI down below
+
 
 [Averaging] - basically sum of importance score
 
