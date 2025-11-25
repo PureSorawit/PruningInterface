@@ -1,0 +1,21 @@
+python apply_mask.py --ckpt ./checkpoints/vit_base_cifar100.pth --model vit_base_patch16_224 --mask ./output/final_conj_mask.json --save ./checkpoints/vit_base_pruned_final.pth
+
+
+python averaging.py --prune 0.30
+
+
+python intersecting.py --target 0.30
+
+
+
+python apply_mask.py --mask output/combined_masks.json --save vit_b16_cifar100_average_pruned.pth
+python apply_mask.py --mask output/final_intersect_mask.json --save vit_b16_cifar100_intersect_pruned.pth
+
+
+[Eval]
+## Baseline
+python eval.py
+
+## pruned
+python eval.py --ckpt vit_b16_cifar100_average_pruned.pth
+python eval.py --ckpt vit_b16_cifar100_intersect_pruned.pth
