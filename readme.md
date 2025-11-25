@@ -16,14 +16,14 @@ python apply_mask.py --mask output/final_intersect_mask.json --save vit_b16_cifa
 ```
 
 
-[Eval] - the accuracy is a bit weird right now
-## Baseline
+### Eval - the accuracy is a bit weird right now
+[Baseline]
 ```
 python eval.py
 ```
 
 
-## pruned
+[pruned]
 ```
 python eval.py --ckpt vit_b16_cifar100_average_pruned.pth
 python eval.py --ckpt vit_b16_cifar100_intersect_pruned.pth
