@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 import json
 import argparse
 import torch

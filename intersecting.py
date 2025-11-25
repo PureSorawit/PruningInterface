@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 import json
 import argparse
 import glob
@@ -11,9 +14,9 @@ INPUT_DIR = "input"   # folder containing score JSONs
 # Output inside "output" folder
 OUT_MASK = "output/final_intersect_mask.json"
 
-INIT = 0.10
-STEP = 0.05
-ERROR_MARGIN = 0.01
+INIT = 0.01
+STEP = 0.005
+ERROR_MARGIN = 0.005
 
 COMPONENTS = ["ffn"]
 # COMPONENTS = ["ffn", "heads", "qkv_dim"]
