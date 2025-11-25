@@ -1,18 +1,18 @@
-python apply_mask.py --ckpt ./checkpoints/vit_base_cifar100.pth --model vit_base_patch16_224 --mask ./output/final_conj_mask.json --save ./checkpoints/vit_base_pruned_final.pth
-
+[Averaging] - basically sum of importance score
 
 python averaging.py --prune 0.30
 
 
+[Intersecting] - conjugation of mask
 python intersecting.py --target 0.30
 
 
-
+[applying mask] - zeroing out weight
 python apply_mask.py --mask output/combined_masks.json --save vit_b16_cifar100_average_pruned.pth
 python apply_mask.py --mask output/final_intersect_mask.json --save vit_b16_cifar100_intersect_pruned.pth
 
 
-[Eval]
+[Eval] - the accuracy is a bit weird right now
 ## Baseline
 python eval.py
 
