@@ -71,31 +71,50 @@ def load_model(ckpt_override: str | None = None) -> nn.Module:
     return model
 
 
-def build_val_loader():
+def build_loader(use_test: bool):
+    """
+    use_test=False -> validation loader (TrainVal)
+    use_test=True  -> test loader
+    """
     if DATASET_NAME == "cifar100":
         ds_enum = DSName.CIFAR100
     else:
         ds_enum = DSName.IIIT_PET
 
-    train_loader, val_loader = load_dataset(
-        dataset=ds_enum,
-        batch_size=BATCH_SIZE,
-        subset_size=SUBSET_SIZE,
-        res=RESOLUTION,
-        split=DSSplit.TrainVal,
-        download_dataset=True,
-    )
-    return val_loader
+    if use_test:
+        print("\n[Eval] CIFAR-100 TEST set")
+        test_loader = load_dataset(
+            dataset=ds_enum,
+            batch_size=BATCH_SIZE,
+            subset_size=SUBSET_SIZE,
+            res=RESOLUTION,
+            split=DSSplit.Test,
+            download_dataset=True,
+        )
+        return test_loader
 
+    else:
+        print("\n[Eval] CIFAR-100 VALIDATION set")
+        train_loader, val_loader = load_dataset(
+            dataset=ds_enum,
+            batch_size=BATCH_SIZE,
+            subset_size=SUBSET_SIZE,
+            res=RESOLUTION,
+            split=DSSplit.TrainVal,
+            download_dataset=True,
+        )
+        return val_loader
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Evaluate ViT accuracy"
+        description="Evaluate ViT accuracy (validation or test)"
     )
+    parser.add_argument("--ckpt", default=None)
     parser.add_argument(
-        "--ckpt",
-        default=None
+        "--test",
+        action="store_true",
+        help="Use test dataset instead of validation",
     )
     args = parser.parse_args()
 
@@ -108,16 +127,18 @@ def main():
     model = load_model(ckpt_override=args.ckpt)
     model.to(device)
 
-    print("\n[Eval] CIFAR-100 validation")
-    val_loader = build_val_loader()
+    # Loader (validation or test)
+    loader = build_loader(use_test=args.test)
 
+    # Evaluate
     t0 = time.time()
-    loss, acc = evaluate_accuracy(model, val_loader, device, use_amp=use_amp)
+    loss, acc = evaluate_accuracy(model, loader, device, use_amp=use_amp)
     dt = time.time() - t0
 
-    print(f"  Val Loss : {loss:.4f}")
-    print(f"  Val Acc  : {acc*100:.2f}%")
-    print(f"  Time     : {dt:.1f} s")
+    name = "Test" if args.test else "Val"
+    print(f"  {name} Loss : {loss:.4f}")
+    print(f"  {name} Acc  : {acc*100:.2f}%")
+    print(f"  Time        : {dt:.1f} s")
 
 
 if __name__ == "__main__":

@@ -172,7 +172,7 @@ def main():
     compute_pruned_stats(masks)
 
     # 4) Apply masks
-    print("[Mask] Applying…")
+    print("[Mask] Applying...")
     apply_masks(model, masks)
 
     # 5) Save pruned checkpoint

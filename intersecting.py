@@ -15,7 +15,7 @@ INPUT_DIR = "input"   # folder containing score JSONs
 OUT_MASK = "output/final_intersect_mask.json"
 
 INIT = 0.01
-STEP = 0.005
+STEP = 0.004
 ERROR_MARGIN = 0.005
 
 COMPONENTS = ["ffn"]

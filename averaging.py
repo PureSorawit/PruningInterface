@@ -107,8 +107,8 @@ def main():
         json.dump(combined_masks, f, indent=2)
 
     print("\n[OK] Wrote output:")
-    print(" →", OUT_SCORES)
-    print(" →", OUT_MASKS)
+    print(" ->", OUT_SCORES)
+    print(" ->", OUT_MASKS)
 
 
 if __name__ == "__main__":
